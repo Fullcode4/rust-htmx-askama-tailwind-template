@@ -3,7 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link href="/assets/main.css" rel="stylesheet" />
+    <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+    <link href="https://rsms.me/inter/inter.css" rel="stylesheet" />
+    <title>{% block title %} {{ title }} {% endblock %}</title>
+
+    {% block head %}{% endblock %}
   </head>
-  <body></body>
+  <body>
+    <div id = "content">
+      {% block content %}{% endblock %}
+    </div>
+  </body>
 </html>

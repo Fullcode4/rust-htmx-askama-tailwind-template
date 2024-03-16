@@ -43,7 +43,10 @@ async fn main() -> anyhow::Result<()> {
     Ok(())
 }
 
-async fn index() -> impl IntoResponse {}
+async fn index() -> impl IntoResponse {
+    let index = IndexTemplate {};
+    HtmlTemplate(index)
+}
 
 #[derive(Template)]
 #[template(path = "index.html")]
