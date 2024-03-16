@@ -2,6 +2,7 @@ use anyhow::Context;
 use askama::Template;
 use axum::{http::StatusCode, response::{Html, IntoResponse, Response}, routing::get, Router};
 use dotenv::dotenv;
+use tower_http::services::ServeDir;
 use tracing::info;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt, EnvFilter};
 
@@ -19,10 +20,16 @@ async fn main() -> anyhow::Result<()> {
 
     info!("initializing router...");
 
+    let assets_path = std::env::current_dir().unwrap();
     let port = 8000_u16;
     let addr = std::net::SocketAddr::from(([0, 0, 0, 0], port));
 
-    let router = Router::new().route("/", get(index));
+    let router = Router::new()
+        .route("/", get(index))
+        .nest_service(
+            "/assets", 
+            ServeDir::new(format!("{}/assets", assets_path.to_str().unwrap()))
+        );
     let listener = tokio::net::TcpListener::bind(addr)
         .await
         .context("error while creating listener")?;
