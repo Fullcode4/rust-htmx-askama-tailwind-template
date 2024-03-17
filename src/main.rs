@@ -1,12 +1,7 @@
 use anyhow::Context;
 use api::server::Server;
-use axum::{http::StatusCode, response::{Html, IntoResponse, Response}, routing::get, Router};
 use dotenv::dotenv;
-use tower_http::services::ServeDir;
-use tracing::info;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt, EnvFilter};
-
-use crate::views::routes::{dashboard, index};
 
 pub mod views;
 pub mod api;
