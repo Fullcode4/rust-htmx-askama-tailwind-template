@@ -1,8 +1,8 @@
 use askama::Template;
 use axum::{http::StatusCode, response::{Html, IntoResponse, Response}};
 
-
 pub mod templates;
+pub mod routes;
 
 pub struct HtmlTemplate<T>(T);
 
