@@ -36,12 +36,13 @@ impl Server {
             .route("/dashboard", get(dashboard))
             .nest_service(
                 "/assets", 
-                ServeDir::new(format!("{}/path", self.assets_path.to_str().unwrap())));
+                ServeDir::new(format!("{}/assets", self.assets_path.to_str().unwrap())));
 
         router
     }
 
     pub async fn run(&self, router: Router) -> anyhow::Result<()> {
+        info!("starting server at port {}", self.port);        
         let listener = TcpListener::bind(self.addr).await.context("Error while binding address")?;
         axum::serve(listener, router).await.context("Error while staring server")?;
         Ok(())
