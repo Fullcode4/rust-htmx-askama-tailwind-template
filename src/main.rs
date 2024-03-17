@@ -26,6 +26,7 @@ async fn main() -> anyhow::Result<()> {
 
     let router = Router::new()
         .route("/", get(index))
+        .route("/dashboard", get(dashboard))
         .nest_service(
             "/assets", 
             ServeDir::new(format!("{}/assets", assets_path.to_str().unwrap()))
@@ -48,9 +49,19 @@ async fn index() -> impl IntoResponse {
     HtmlTemplate(index)
 }
 
+async fn dashboard() -> impl IntoResponse {
+    let dashboard = DashboardTemplate {};
+    HtmlTemplate(dashboard)
+}
+
+
 #[derive(Template)]
 #[template(path = "index.html")]
 struct IndexTemplate;
+
+#[derive(Template)]
+#[template(path = "dashboard/index.html")]
+struct DashboardTemplate;
 
 struct HtmlTemplate<T>(T);
 

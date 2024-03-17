@@ -2,6 +2,15 @@
 
 {% block title %}Hello!{% endblock %}
 
+<!-- modidy index page content between those two tags below -->
 {% block content %}
-  <h1 class="text-green-500">Howdy!</h1>
+  <div class = "w-full h-screen bg-gray-50 flex justify-center items-center flex-col">
+    <h1 class = "text-3xl">Index page</h1>
+    <div class = "flex flex-row items-center justify-center gap-x-2 w-1/2 mt-1">
+      <a href = "/login" class = "no-underline bg-cyan-800 p-1 rounded-md text-white">Login</a>
+      <a href = "/register" class = "no-underline bg-cyan-800 p-1 rounded-md text-white">Register</a>
+      <a href = "/dashboard" class = "no-underline bg-cyan-800 p-1 rounded-md text-white">Dashboard</a>
+    </div>
+
+  </div>
 {% endblock %}
