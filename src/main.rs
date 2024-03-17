@@ -1,10 +1,14 @@
 use anyhow::Context;
-use askama::Template;
 use axum::{http::StatusCode, response::{Html, IntoResponse, Response}, routing::get, Router};
 use dotenv::dotenv;
 use tower_http::services::ServeDir;
 use tracing::info;
 use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt, EnvFilter};
+
+use crate::views::routes::{dashboard, index};
+
+pub mod views;
+pub mod api;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -44,35 +48,3 @@ async fn main() -> anyhow::Result<()> {
     Ok(())
 }
 
-async fn index() -> impl IntoResponse {
-    let index = IndexTemplate {};
-    HtmlTemplate(index)
-}
-
-async fn dashboard() -> impl IntoResponse {
-    let dashboard = DashboardTemplate {};
-    HtmlTemplate(dashboard)
-}
-
-
-#[derive(Template)]
-#[template(path = "index.html")]
-struct IndexTemplate;
-
-#[derive(Template)]
-#[template(path = "dashboard/index.html")]
-struct DashboardTemplate;
-
-struct HtmlTemplate<T>(T);
-
-impl<T> IntoResponse for HtmlTemplate<T>
-where
-    T: Template,
-{
-    fn into_response(self) -> Response {
-        match self.0.render() {
-            Ok(html) => Html(html).into_response(),
-            Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, format!("Failed to render template. Error: {}", e)).into_response(),
-        }
-    }
-}
